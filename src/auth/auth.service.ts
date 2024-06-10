@@ -24,12 +24,15 @@ export class AuthService {
     const { email, password } = loginDto;
     const user = await this.validateUser(email, password);
 
-
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = { email: user.email, sub: user.id };
+    const payload = {
+      email: user.email,
+      sub: user.id,
+      walletAddress: user.walletAddress,
+    };
     return {
       accessToken: this.jwtService.sign(payload),
       user,

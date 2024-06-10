@@ -30,10 +30,7 @@ export class ContractService {
     return this.contractRepository.save(contract);
   }
 
-  async updateContract(
-    id: string,
-    updateData: Partial<Contract>,
-  ): Promise<Contract> {
+  async updateContract(id: string, updateData: Partial<Contract>): Promise<Contract> {
     const contract = await this.contractRepository.findOne({ where: { id } });
     if (!contract) {
       throw new NotFoundException(`Contract with ID "${id}" not found`);
@@ -48,10 +45,7 @@ export class ContractService {
   }
 
   async findOne(id: string): Promise<Contract> {
-    const contract = await this.contractRepository.findOne({
-      where: { id },
-      relations: ['job'],
-    });
+    const contract = await this.contractRepository.findOne({ where: { id }, relations: ['job'] });
     if (!contract) {
       throw new NotFoundException(`Contract with ID "${id}" not found`);
     }
@@ -61,10 +55,7 @@ export class ContractService {
   async findByFreelancerAddress(
     freelancerAddress: string,
   ): Promise<Contract[]> {
-    return this.contractRepository.find({
-      where: { freelancerAddress },
-      relations: ['job'],
-    });
+    return this.contractRepository.find({ where: { freelancerAddress }, relations: ['job'] });
   }
 
   async deleteContract(id: string): Promise<void> {

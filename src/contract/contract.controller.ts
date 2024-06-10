@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get, Param, Delete, Patch, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Delete, Patch, UseGuards, Request } from '@nestjs/common';
 import { ContractService } from './contract.service';
 import { Contract } from './contract.entity';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('contracts')
 export class ContractController {
@@ -21,14 +22,16 @@ export class ContractController {
     return this.contractService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('my-contracts')
+  async findMyContracts(@Request() req): Promise<Contract[]> {
+    const { walletAddress } = req.user;
+    return this.contractService.findByFreelancerAddress(walletAddress);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Contract> {
     return this.contractService.findOne(id);
-  }
-
-  @Get('search')
-  async findByFreelancerAddress(@Query('freelancerAddress') freelancerAddress: string): Promise<Contract[]> {
-    return this.contractService.findByFreelancerAddress(freelancerAddress);
   }
 
   @Delete(':id')
