@@ -17,4 +17,7 @@ export class Contract {
 
   @ManyToOne(() => Job, (job) => job.contracts)
   job: Job;
+
+  @Column({ type: 'varchar', nullable: true })
+  status: string;
 }

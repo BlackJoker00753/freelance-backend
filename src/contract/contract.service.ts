@@ -30,6 +30,19 @@ export class ContractService {
     return this.contractRepository.save(contract);
   }
 
+  async updateContract(
+    id: string,
+    updateData: Partial<Contract>,
+  ): Promise<Contract> {
+    const contract = await this.contractRepository.findOne({ where: { id } });
+    if (!contract) {
+      throw new NotFoundException(`Contract with ID "${id}" not found`);
+    }
+
+    Object.assign(contract, updateData);
+    return this.contractRepository.save(contract);
+  }
+
   async findAll(): Promise<Contract[]> {
     return this.contractRepository.find({ relations: ['job'] });
   }
@@ -43,6 +56,15 @@ export class ContractService {
       throw new NotFoundException(`Contract with ID "${id}" not found`);
     }
     return contract;
+  }
+
+  async findByFreelancerAddress(
+    freelancerAddress: string,
+  ): Promise<Contract[]> {
+    return this.contractRepository.find({
+      where: { freelancerAddress },
+      relations: ['job'],
+    });
   }
 
   async deleteContract(id: string): Promise<void> {
