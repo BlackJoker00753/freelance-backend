@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { JobApplication } from '../job-application/job-application.entity';
+import { Contract } from '../contract/contract.entity';
 import { Chat } from '../chat/chat.entity';
 
 @Entity()
@@ -40,4 +41,7 @@ export class Job {
 
   @OneToMany(() => Chat, (chat) => chat.job)
   chats: Chat[];
+
+  @OneToMany(() => Contract, (contract) => contract.job)
+  contracts: Contract[];
 }

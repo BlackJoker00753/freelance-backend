@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { JobApplicationModule } from './job-application/job-application.module';
 import { SignalingModule } from './signaling/signaling.module';
 import { ChatModule } from './chat/chat.module';
+import { ContractModule } from './contract/contract.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -24,6 +25,7 @@ dotenv.config();
     JobApplicationModule,
     SignalingModule,
     ChatModule,
+    ContractModule,
   ],
   controllers: [AppController],
   providers: [AppService],

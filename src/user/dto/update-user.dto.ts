@@ -24,4 +24,8 @@ export class UpdateUserDto {
   @IsOptional()
   @IsInt()
   role?: number;
+
+  @IsOptional()
+  @IsString()
+  walletAddress?: string;
 }
